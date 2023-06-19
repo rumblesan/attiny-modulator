@@ -3,14 +3,14 @@
 
 int main (void)
 {
-    // Set Data Direction to output on all port B pins
-    DDRB = 0b00111111;
+    // Set Data Direction to output on pin 1 of PortB
+    DDRB = (1<<PB0);
     while (1) {
         // set PB0 high
-        PORTB = 0b00000001;
+        PORTB = (1<<PB0);
         _delay_ms(500);
         // set PB0 low
-        PORTB = 0b00000000;
+        PORTB = (0<<PB0);
         _delay_ms(500);
     }
 
