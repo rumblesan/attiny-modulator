@@ -3,11 +3,15 @@
 
 DEVICE      = attiny85
 CLOCK      = 8000000
-PROGRAMMER = -c usbtiny 
+PROGRAMMER = -c usbtiny
 OBJECTS    = main.o
 # for ATTiny85
 # see http://www.engbedded.com/fusecalc/
-FUSES       = -U lfuse:w:0xe2:m -U hfuse:w:0xdc:m -U efuse:w:0xff:m 
+FUSES       = -U lfuse:w:0xe2:m -U hfuse:w:0xdc:m -U efuse:w:0xff:m
+
+HEADER_DIRS       = ../lib
+
+INCLUDES          = $(addprefix -I, $(HEADER_DIRS))
 
 # Tune the lines below only if you know what you are doing:
 AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE)
@@ -43,7 +47,7 @@ clean:
 
 # file targets:
 main.elf: $(OBJECTS)
-	$(COMPILE) -o main.elf $(OBJECTS)
+	$(COMPILE) -o main.elf $(OBJECTS) $(INCLUDES)
 
 main.hex: main.elf
 	rm -f main.hex
