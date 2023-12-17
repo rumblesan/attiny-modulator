@@ -7,9 +7,9 @@ typedef struct EdgeDetector {
   bool previous_state;
 } EdgeDetector;
 
-#define edge_detector_init(name) \
-  name.previous_state = false;  \
-  name.current_state = false;
+#define edge_detector_init(name, initial) \
+  name.previous_state = initial;  \
+  name.current_state = initial;
 
 #define edge_detector_update(ed, val) \
   ed.previous_state = ed.current_state;  \
