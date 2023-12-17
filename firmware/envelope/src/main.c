@@ -9,6 +9,7 @@
 #include "envelope.h"
 #include "edge_detector.h"
 #include "discrete_control.h"
+#include "envelope_curves.h"
 
 #define MAX_ADC_VALUE 1023
 #define DAC_CLOCK_RATE 20000
@@ -108,6 +109,19 @@ const uint32_t TIME_CURVE[] = {
   ENV_MAX_VALUE / 655360,
 };
 
+const uint8_t *const ENV_CURVES[] = {
+  ENV_SHARPER,
+  ENV_EXPONENTIAL,
+  ENV_QUADRATIC,
+  ENV_LINEAR,
+  ENV_INV_QUADRATIC,
+  ENV_INV_EXPONENTIAL,
+  ENV_INV_SHARPER,
+};
+
+const uint8_t *env_curve;
+
+
 volatile uint8_t adc_read_channel = PARAM_1_IN_MUX;
 
 uint16_t volatile param_1_adc_in;
@@ -119,6 +133,7 @@ EdgeDetector ed;
 
 DiscreteControl attack_control;
 DiscreteControl decay_control;
+DiscreteControl curve_control;
 
 int main (void)
 {
@@ -141,12 +156,14 @@ int main (void)
 
   discrete_control_init(&attack_control, array_length(TIME_CURVE) - 1, MAX_ADC_VALUE, 2);
   discrete_control_init(&decay_control, array_length(TIME_CURVE) - 1, MAX_ADC_VALUE, 2);
+  discrete_control_init(&curve_control, array_length(ENV_CURVES) - 1, MAX_ADC_VALUE, 5);
 
   while (1) {
 
     edge_detector_update(ed, (PINB & _BV(TRIG_IN_PIN)));
     discrete_control_update(&attack_control, param_1_adc_in);
     discrete_control_update(&decay_control, param_2_adc_in);
+    discrete_control_update(&curve_control, param_3_adc_in);
 
     uint8_t attack_range_value = discrete_control_get_value(&attack_control);
     uint32_t attack_value = map(param_1_adc_in, 0, MAX_ADC_VALUE, TIME_CURVE[attack_range_value + 1], TIME_CURVE[attack_range_value]);
@@ -156,6 +173,7 @@ int main (void)
     disable_interrupts;
     envelope_set_attack(&env, attack_value);
     envelope_set_decay(&env, decay_value);
+    env_curve = ENV_CURVES[discrete_control_get_value(&curve_control)];
     enable_interrupts;
     
     if (edge_detector_is_rising(ed)) {
@@ -199,6 +217,8 @@ ISR(ADC_vect) {
 ISR( TIM0_COMPA_vect ) {
   envelope_tick(&env);
 
-  OCR1A = envelope_8bit_value(&env);
+  uint8_t env_value = pgm_read_byte(&env_curve[envelope_8bit_value(&env)]);
+
+  OCR1A = env_value;
 }
 
