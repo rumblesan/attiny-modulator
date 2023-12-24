@@ -72,9 +72,15 @@ MU_TEST(util_map_tests) {
     mu_assert_int_eq(14760000, map(v, 0, mmax, 0, 16777215));
 }
 
+MU_TEST(util_blend_tests) {
+    mu_assert_int_eq(100, blend(100, 100, 64));
+    mu_assert_int_eq(100, blend(150, 50, 64));
+}
+
 MU_TEST_SUITE(util_suite) {
     test_header("Util tests\n");
     MU_RUN_TEST(util_map_tests);
+    MU_RUN_TEST(util_blend_tests);
 }
 
 MU_TEST(envelope_tests_basic) {
@@ -125,9 +131,18 @@ MU_TEST(envelope_tests_basic) {
     mu_assert(env.state == ENVELOPE_STOPPED, "envelope should be stopped");
 }
 
+MU_TEST(envelope_tests_blend_value) {
+    Envelope env;
+    envelope_init(&env);
+    env.value = 421075234;
+    mu_assert_int_eq(100, envelope_8bit_value(&env));
+    mu_assert_int_eq(50, envelope_blend_value(&env));
+}
+
 MU_TEST_SUITE(envelope_suite) {
     test_header("Envelope tests\n");
     MU_RUN_TEST(envelope_tests_basic);
+    MU_RUN_TEST(envelope_tests_blend_value);
 }
 
 int main(int argc, char *argv[]) {

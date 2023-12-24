@@ -49,10 +49,11 @@ void envelope_tick(Envelope *e) {
 }
 
 uint8_t envelope_8bit_value(Envelope *e) {
-  return e->value >> (ENV_VALUE_BITS - 8);
+  return e->value >> 22;
 }
 
+// designed to work with the blend function
 uint8_t envelope_blend_value(Envelope *e) {
-  uint16_t bits16val = e->value >> (ENV_VALUE_BITS - 16);
-  return bits16val && 255;
+  uint16_t bits16val = e->value >> 15;
+  return (bits16val & 127);
 }

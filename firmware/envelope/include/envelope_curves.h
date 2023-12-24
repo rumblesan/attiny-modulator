@@ -1,6 +1,6 @@
 #include <avr/pgmspace.h>
 
-const uint8_t ENV_LINEAR[256] PROGMEM = {
+const uint8_t ENV_LINEAR[257] PROGMEM = {
   0, // 0
   1, // 1
   2, // 2
@@ -257,10 +257,11 @@ const uint8_t ENV_LINEAR[256] PROGMEM = {
   253, // 253
   254, // 254
   255, // 255
+  255, // 256
 };
 
 
-const uint8_t ENV_QUADRATIC[256] PROGMEM = {
+const uint8_t ENV_QUADRATIC[257] PROGMEM = {
   0, // 0
   0, // 1
   0, // 2
@@ -517,10 +518,11 @@ const uint8_t ENV_QUADRATIC[256] PROGMEM = {
   251, // 253
   253, // 254
   255, // 255
+  255, // 256
 };
 
 
-const uint8_t ENV_INV_QUADRATIC[256] PROGMEM = {
+const uint8_t ENV_INV_QUADRATIC[257] PROGMEM = {
   0, // 0
   2, // 1
   4, // 2
@@ -777,10 +779,11 @@ const uint8_t ENV_INV_QUADRATIC[256] PROGMEM = {
   255, // 253
   255, // 254
   255, // 255
+  255, // 256
 };
 
 
-const uint8_t ENV_EXPONENTIAL[256] PROGMEM = {
+const uint8_t ENV_EXPONENTIAL[257] PROGMEM = {
   0, // 0
   0, // 1
   0, // 2
@@ -1037,10 +1040,11 @@ const uint8_t ENV_EXPONENTIAL[256] PROGMEM = {
   244, // 253
   249, // 254
   255, // 255
+  255, // 256
 };
 
 
-const uint8_t ENV_INV_EXPONENTIAL[256] PROGMEM = {
+const uint8_t ENV_INV_EXPONENTIAL[257] PROGMEM = {
   0, // 0
   6, // 1
   11, // 2
@@ -1297,10 +1301,11 @@ const uint8_t ENV_INV_EXPONENTIAL[256] PROGMEM = {
   255, // 253
   255, // 254
   255, // 255
+  255, // 256
 };
 
 
-const uint8_t ENV_SHARPER[256] PROGMEM = {
+const uint8_t ENV_SHARPER[257] PROGMEM = {
   0, // 0
   0, // 1
   0, // 2
@@ -1557,10 +1562,11 @@ const uint8_t ENV_SHARPER[256] PROGMEM = {
   255, // 253
   255, // 254
   255, // 255
+  255, // 256
 };
 
 
-const uint8_t ENV_INV_SHARPER[256] PROGMEM = {
+const uint8_t ENV_INV_SHARPER[257] PROGMEM = {
   0, // 0
   0, // 1
   0, // 2
@@ -1817,6 +1823,7 @@ const uint8_t ENV_INV_SHARPER[256] PROGMEM = {
   255, // 253
   255, // 254
   255, // 255
+  255, // 256
 };
 
 

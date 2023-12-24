@@ -72,8 +72,8 @@ void setupTimer() {
 
   TCCR0A |= _BV(WGM01) | _BV(WGM00);  // Enable Fast PWM mode
   TCCR0B |= _BV(WGM02);               // Overflow when the counter reaches TOP
-  TCCR0B |= _BV(CS01);                // Use a /8 prescaler
-  OCR0A = 49;                         // Divide by 50 (1M / 50 = 20k)
+  TCCR0B |= _BV(CS01) | _BV(CS00);    // Use a /64 prescaler
+  OCR0A = 24;                         // Divide by 25 (8M / (64 * 25) = 5k)
 
   TIMSK |= _BV(OCIE0A);              // Enable the compare match interrupt
   TIMSK &= ~_BV(TOIE0);              // Disable the overflow interrupt
@@ -83,7 +83,7 @@ void setupTimer() {
 /*
 // Attack/decay times in miliseconds.
 const uint32_t TIME_CURVE[] = {
-  0.1,
+  0.2,
   16,
   48,
   128,
@@ -96,17 +96,17 @@ const uint32_t TIME_CURVE[] = {
 */
 
 // Attack/decay rates based on 20KHZ timer.
-// ENV_MAX / (20 * time in msec)
+// ENV_MAX / (5 * time in msec)
 const uint32_t TIME_CURVE[] = {
-  ENV_MAX_VALUE / 2,
-  ENV_MAX_VALUE / 320,
-  ENV_MAX_VALUE / 960,
+  ENV_MAX_VALUE / 1,
+  ENV_MAX_VALUE / 80,
+  ENV_MAX_VALUE / 240,
+  ENV_MAX_VALUE / 640,
   ENV_MAX_VALUE / 2560,
   ENV_MAX_VALUE / 10240,
   ENV_MAX_VALUE / 40960,
+  ENV_MAX_VALUE / 81920,
   ENV_MAX_VALUE / 163840,
-  ENV_MAX_VALUE / 327680,
-  ENV_MAX_VALUE / 655360,
 };
 
 const uint8_t *const ENV_CURVES[] = {
@@ -183,7 +183,7 @@ int main (void)
       envelope_release(&env);
     }
 
-    _delay_ms(5);
+    _delay_ms(1);
   }
 
   return 1;
@@ -213,12 +213,19 @@ ISR(ADC_vect) {
   startADCConversion(adc_read_channel);
 }
 
-
 ISR( TIM0_COMPA_vect ) {
   envelope_tick(&env);
 
-  uint8_t env_value = pgm_read_byte(&env_curve[envelope_8bit_value(&env)]);
+  uint8_t env_value = envelope_8bit_value(&env);
+  uint8_t curve_value_1 = pgm_read_byte(&env_curve[env_value]);
+  uint8_t curve_value_2 = pgm_read_byte(&env_curve[env_value + 1]);
+  uint8_t blend_val = envelope_blend_value(&env);
+  uint16_t scaled1 = curve_value_1 * (128 - blend_val);
+  uint16_t scaled2 = curve_value_2 * (blend_val);
 
-  OCR1A = env_value;
+  OCR1A = (scaled1 + scaled2) >> 7;
+  /*OCR1A = curve_value_1;*/
+  //OCR1A = ((uint16_t)curve_value_1 + (uint16_t)curve_value_2) >> 1;
+  //OCR1A = envelope_blend_value(&env);
 }
 

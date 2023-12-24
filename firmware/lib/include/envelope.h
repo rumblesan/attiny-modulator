@@ -36,3 +36,7 @@ void envelope_release(Envelope *e);
 void envelope_tick(Envelope *e);
 
 uint8_t envelope_8bit_value(Envelope *e);
+
+uint8_t envelope_15bit_value(Envelope *e);
+
+uint8_t envelope_blend_value(Envelope *e);
