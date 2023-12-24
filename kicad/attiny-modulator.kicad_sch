@@ -5,6 +5,8 @@
   (paper "A3")
 
   (title_block
+    (date "2023-07-19")
+    (rev "rev02")
     (comment 1 "Based on the JNTUB designed by Ben Reeves")
     (comment 2 "creativecommons.org/licenses/by/4.0/")
     (comment 3 "License: CC BY 4.0")
@@ -2966,7 +2968,12 @@
     (uuid fe590e3a-64d7-46fe-900d-7fcbe5045bdc)
   )
 
-  (text "For unipolar, 0V-5V outputs, don't place R10 and place a wire jumper for R10\nFor bipolar, -5V-5V outputs, place both R9 and R10"
+  (text "D4 lights on positive output\nD3 lights on negative output"
+    (at 99.06 158.75 0)
+    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (uuid 496d992e-bb22-4c61-9073-7b28cf3b3e77)
+  )
+  (text "For unipolar, 0V-5V outputs, don't place R10 and place a wire jumper for R9\nFor bipolar, -5V-5V outputs, place both R9 and R10"
     (at 270.51 218.44 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 5e7f973b-6e15-43c5-8aa8-182ab323ccce)
@@ -4597,8 +4604,8 @@
     (property "Datasheet" "~" (at 113.03 142.24 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 80b75644-98ab-4d96-91f0-41d5e4463268))
-    (pin "2" (uuid 195060ec-d912-40b6-8509-df839cdb0927))
+    (pin "1" (uuid 3537ee2f-ef29-454c-a3dc-9c2a51d0d2cd))
+    (pin "2" (uuid fded789d-ddf5-42e6-a280-e201b479a9b8))
     (instances
       (project "attiny-modulator"
         (path "/5b0acaca-dc50-4fa5-b146-164c1b9ad031"
@@ -5001,8 +5008,8 @@
     (property "Datasheet" "~" (at 113.03 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 751317e5-a26a-431e-8091-34d96c4a0d7f))
-    (pin "2" (uuid fd75ad64-7e09-4eba-a757-7665b7ad0f56))
+    (pin "1" (uuid 82eea3fd-ae60-49ef-a2af-405879e26fcb))
+    (pin "2" (uuid d6666f8c-1115-42ef-bcd9-af675f921554))
     (instances
       (project "attiny-modulator"
         (path "/5b0acaca-dc50-4fa5-b146-164c1b9ad031"

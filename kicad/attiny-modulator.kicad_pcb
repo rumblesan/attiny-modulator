@@ -6,6 +6,8 @@
 
   (paper "A4")
   (title_block
+    (date "2023-07-19")
+    (rev "rev02")
     (comment 2 "creativecommons.org/licenses/by/4.0")
     (comment 3 "License: CC BY 4.0")
     (comment 4 "Author: Guy John")
@@ -1085,7 +1087,7 @@
     (property "Sheetname" "")
     (property "ki_description" "Dual 2.7V to 6.0V Single Supply CMOS Op Amps, DIP-8/SOIC-8/TSSOP-8")
     (property "ki_keywords" "dual opamp")
-    (path "/f31bd983-c11c-4754-b352-966dc6deec99")
+    (path "/b9214c57-c12d-4fb3-bdcc-c087e9fcd980")
     (attr through_hole)
     (fp_text reference "U2" (at 3.81 9.906 90) (layer "F.SilkS")
         (effects (font (size 1 1) (thickness 0.15)))
